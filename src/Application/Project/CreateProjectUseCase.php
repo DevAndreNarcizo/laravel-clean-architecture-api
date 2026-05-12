@@ -9,9 +9,7 @@ use Src\Domain\Project\ProjectRepository;
 
 final readonly class CreateProjectUseCase
 {
-    public function __construct(private ProjectRepository $projects)
-    {
-    }
+    public function __construct(private ProjectRepository $projects) {}
 
     /**
      * Cria um projeto mantendo a regra de negócio fora do controller.

@@ -10,6 +10,5 @@ final readonly class CreateProjectData
         public int $ownerId,
         public string $name,
         public ?string $description,
-    ) {
-    }
+    ) {}
 }

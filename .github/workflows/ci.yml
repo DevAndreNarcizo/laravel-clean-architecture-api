@@ -9,6 +9,28 @@ on:
 jobs:
   quality:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: clean_architecture_test
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: secret
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U app -d clean_architecture_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+      rabbitmq:
+        image: rabbitmq:3-management-alpine
+        ports:
+          - 5672:5672
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
@@ -19,7 +41,29 @@ jobs:
       - run: composer install --no-interaction --prefer-dist
       - run: cp .env.example .env
       - run: php artisan key:generate
+      - run: php artisan migrate --env=testing
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: clean_architecture_test
+          DB_USERNAME: app
+          DB_PASSWORD: secret
+          CACHE_STORE: redis
+          REDIS_CLIENT: predis
+          REDIS_HOST: 127.0.0.1
       - run: ./vendor/bin/pint --test
       - run: php artisan test --coverage --min=75
-      - run: test -f vendor/bin/phpstan && vendor/bin/phpstan analyse || true
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: clean_architecture_test
+          DB_USERNAME: app
+          DB_PASSWORD: secret
+          CACHE_STORE: redis
+          REDIS_CLIENT: predis
+          REDIS_HOST: 127.0.0.1
+          RABBITMQ_ENABLED: false
+      - run: vendor/bin/phpstan analyse
       - run: docker build .

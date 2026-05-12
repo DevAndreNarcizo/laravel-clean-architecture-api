@@ -10,6 +10,5 @@ final readonly class CreateTaskData
         public int $projectId,
         public string $title,
         public ?string $description,
-    ) {
-    }
+    ) {}
 }

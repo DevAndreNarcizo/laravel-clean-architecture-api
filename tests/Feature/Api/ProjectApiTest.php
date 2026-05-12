@@ -12,25 +12,43 @@ final class ProjectApiTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testProjectCanBeCreatedWithStandardEnvelope(): void
+    public function test_project_can_be_created_with_standard_envelope(): void
     {
         $user = User::factory()->create();
 
         $this->postJson('/api/v1/projects', [
-            'owner_id' => $user->id,
             'name' => 'Clean Architecture API',
             'description' => 'Portfolio project',
-        ])
+        ], ['Authorization' => 'Bearer '.$this->bearerTokenFor($user)])
             ->assertCreated()
             ->assertJsonPath('success', true)
             ->assertJsonPath('data.name', 'Clean Architecture API')
             ->assertJsonPath('error', null);
     }
 
-    public function testProjectValidationUsesStandardLaravelErrors(): void
+    public function test_project_validation_uses_standard_laravel_errors(): void
     {
-        $this->postJson('/api/v1/projects', [])
+        $user = User::factory()->create();
+
+        $this->postJson('/api/v1/projects', [], ['Authorization' => 'Bearer '.$this->bearerTokenFor($user)])
             ->assertUnprocessable()
-            ->assertJsonValidationErrors(['owner_id', 'name']);
+            ->assertJsonValidationErrors(['name']);
+    }
+
+    public function test_project_index_requires_jwt(): void
+    {
+        $this->getJson('/api/v1/projects')
+            ->assertUnauthorized()
+            ->assertJsonPath('error.code', 'AUTH_TOKEN_MISSING');
+    }
+
+    public function test_project_index_returns_paginated_envelope(): void
+    {
+        $user = User::factory()->create();
+
+        $this->getJson('/api/v1/projects', ['Authorization' => 'Bearer '.$this->bearerTokenFor($user)])
+            ->assertOk()
+            ->assertJsonPath('success', true)
+            ->assertJsonStructure(['data', 'meta' => ['current_page', 'per_page', 'total', 'last_page']]);
     }
 }

@@ -13,7 +13,7 @@ final class TaskApiTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testTaskCanBeCreatedForProject(): void
+    public function test_task_can_be_created_for_project(): void
     {
         $user = User::factory()->create();
         $project = ProjectModel::query()->create([
@@ -24,15 +24,17 @@ final class TaskApiTest extends TestCase
 
         $this->postJson("/api/v1/projects/{$project->id}/tasks", [
             'title' => 'Write OpenAPI contract',
-        ])
+        ], ['Authorization' => 'Bearer '.$this->bearerTokenFor($user)])
             ->assertCreated()
             ->assertJsonPath('success', true)
             ->assertJsonPath('data.title', 'Write OpenAPI contract');
     }
 
-    public function testTaskRequiresExistingProject(): void
+    public function test_task_requires_existing_project(): void
     {
-        $this->postJson('/api/v1/projects/999/tasks', ['title' => 'Invalid'])
+        $user = User::factory()->create();
+
+        $this->postJson('/api/v1/projects/999/tasks', ['title' => 'Invalid'], ['Authorization' => 'Bearer '.$this->bearerTokenFor($user)])
             ->assertUnprocessable()
             ->assertJsonPath('success', false)
             ->assertJsonPath('error.code', 'TASK_CREATE_FAILED');

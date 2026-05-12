@@ -6,3 +6,4 @@ parameters:
         - routes
     excludePaths:
         - vendor
+        - routes/console.php

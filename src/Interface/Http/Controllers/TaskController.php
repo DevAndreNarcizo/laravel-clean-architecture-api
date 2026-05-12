@@ -8,14 +8,16 @@ use DomainException;
 use Illuminate\Http\JsonResponse;
 use Src\Application\Project\CreateTaskData;
 use Src\Application\Project\CreateTaskUseCase;
+use Src\Infrastructure\Messaging\TaskCreatedPublisher;
 use Src\Interface\Http\Requests\StoreTaskRequest;
 use Src\Interface\Http\Resources\ApiResponse;
 
 final readonly class TaskController
 {
-    public function __construct(private CreateTaskUseCase $createTask)
-    {
-    }
+    public function __construct(
+        private CreateTaskUseCase $createTask,
+        private TaskCreatedPublisher $publisher,
+    ) {}
 
     /**
      * Cria uma tarefa dentro de um projeto existente.
@@ -33,6 +35,8 @@ final readonly class TaskController
         } catch (DomainException $exception) {
             return ApiResponse::error('TASK_CREATE_FAILED', $exception->getMessage(), 422);
         }
+
+        $this->publisher->publish($task);
 
         return ApiResponse::success($task, 201);
     }

@@ -10,14 +10,14 @@ use Src\Domain\Project\Project;
 
 final class ProjectTest extends TestCase
 {
-    public function testProjectRequiresName(): void
+    public function test_project_requires_name(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         new Project(id: null, ownerId: 1, name: '', description: null);
     }
 
-    public function testProjectCanBeCreated(): void
+    public function test_project_can_be_created(): void
     {
         $project = new Project(id: null, ownerId: 1, name: 'Enterprise API', description: 'Demo');
 

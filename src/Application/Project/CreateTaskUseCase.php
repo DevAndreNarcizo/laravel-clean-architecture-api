@@ -14,8 +14,7 @@ final readonly class CreateTaskUseCase
     public function __construct(
         private ProjectRepository $projects,
         private TaskRepository $tasks,
-    ) {
-    }
+    ) {}
 
     /**
      * Cria uma tarefa validando existência do projeto e limite inicial enterprise demo.

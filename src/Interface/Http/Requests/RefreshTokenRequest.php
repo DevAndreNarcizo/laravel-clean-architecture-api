@@ -6,7 +6,7 @@ namespace Src\Interface\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-final class StoreProjectRequest extends FormRequest
+final class RefreshTokenRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -17,8 +17,7 @@ final class StoreProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:120'],
-            'description' => ['nullable', 'string', 'max:1000'],
+            'refresh_token' => ['required', 'string', 'min:40'],
         ];
     }
 }
