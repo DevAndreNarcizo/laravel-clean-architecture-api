@@ -1,0 +1,31 @@
+meta {
+  name: Update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{base_url}}/projects/{{project_id}}
+  body: json
+}
+
+headers {
+  Authorization: Bearer {{auth_token}}
+  Content-Type: application/json
+  Accept: application/json
+}
+
+body:json {
+  {
+    "name": "Projeto Atualizado por Bruno",
+    "description": "Atualizado pelo teste automatizado",
+    "status": "active"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.name: eq "Projeto Atualizado por Bruno"
+  res.body.data.status: eq "active"
+}

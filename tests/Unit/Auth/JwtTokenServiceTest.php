@@ -7,23 +7,27 @@ namespace Tests\Unit\Auth;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Src\Application\Auth\JwtTokenService;
+use Src\Application\Auth\JwtTokenValidator;
 
 final class JwtTokenServiceTest extends TestCase
 {
     public function test_it_issues_and_verifies_token(): void
     {
         $service = new JwtTokenService('secret');
-        $claims = $service->verify($service->issue(10));
+        $validator = new JwtTokenValidator('secret');
+        $token = $service->issue(10);
+        $claims = $validator->verify($token);
 
         $this->assertSame(10, $claims['sub']);
     }
 
     public function test_it_rejects_tampered_token(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-
         $service = new JwtTokenService('secret');
+        $validator = new JwtTokenValidator('secret');
         $token = $service->issue(10);
-        $service->verify($token.'tampered');
+        $claims = $validator->verify($token.'tampered');
+
+        $this->assertNull($claims);
     }
 }

@@ -1,0 +1,97 @@
+[
+  {
+    "iterationIndex": 0,
+    "results": [
+      {
+        "test": {
+          "filename": "auth/Logout.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:8080/api/v1/auth/logout",
+          "headers": {
+            "Authorization": "Bearer ********",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          }
+        },
+        "response": {
+          "status": 422,
+          "statusText": "Unprocessable Content",
+          "headers": {
+            "host": "localhost:8080",
+            "connection": "close",
+            "x-powered-by": "PHP/8.4.20",
+            "cache-control": "no-cache, private",
+            "date": "Sat, 16 May 2026 14:03:48 GMT",
+            "content-type": "application/json",
+            "x-ratelimit-limit": "120",
+            "x-ratelimit-remaining": "110",
+            "access-control-allow-origin": "*"
+          },
+          "data": {
+            "message": "The refresh token field is required.",
+            "errors": {
+              "refresh_token": [
+                "The refresh token field is required."
+              ]
+            }
+          },
+          "url": "http://localhost/api/v1/auth/logout",
+          "responseTime": 45,
+          "duration": 45,
+          "size": 118
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [
+          {
+            "uid": "XRwWGuQHqIH7k67pAQTYB",
+            "lhsExpr": "res.status",
+            "rhsExpr": "eq 200",
+            "rhsOperand": "200",
+            "operator": "eq",
+            "status": "fail",
+            "error": "expected 422 to equal 200"
+          },
+          {
+            "uid": "WwOe2X6ymVRlukfr4jUZ8",
+            "lhsExpr": "res.body.success",
+            "rhsExpr": "eq true",
+            "rhsOperand": "true",
+            "operator": "eq",
+            "status": "fail",
+            "error": "expected undefined to equal true"
+          }
+        ],
+        "testResults": [],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.096423718,
+        "name": "Logout",
+        "path": "auth/Logout",
+        "iterationIndex": 0
+      }
+    ],
+    "summary": {
+      "totalRequests": 1,
+      "passedRequests": 0,
+      "failedRequests": 1,
+      "errorRequests": 0,
+      "skippedRequests": 0,
+      "totalAssertions": 2,
+      "passedAssertions": 0,
+      "failedAssertions": 2,
+      "totalTests": 0,
+      "passedTests": 0,
+      "failedTests": 0,
+      "totalPreRequestTests": 0,
+      "passedPreRequestTests": 0,
+      "failedPreRequestTests": 0,
+      "totalPostResponseTests": 0,
+      "passedPostResponseTests": 0,
+      "failedPostResponseTests": 0
+    }
+  }
+]

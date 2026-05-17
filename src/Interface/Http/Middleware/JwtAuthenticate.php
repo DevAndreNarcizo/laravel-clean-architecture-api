@@ -7,13 +7,15 @@ namespace Src\Interface\Http\Middleware;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
-use Src\Application\Auth\JwtTokenService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Src\Application\Auth\JwtTokenValidator;
 use Src\Interface\Http\Resources\ApiResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 final readonly class JwtAuthenticate
 {
-    public function __construct(private JwtTokenService $jwt) {}
+    public function __construct(private JwtTokenValidator $jwt) {}
 
     /**
      * Autentica requests com Bearer JWT.
@@ -29,7 +31,14 @@ final readonly class JwtAuthenticate
 
         try {
             $claims = $this->jwt->verify($token);
-        } catch (\Throwable) {
+            if ($claims === null) {
+                throw new \RuntimeException('Invalid token, claims is null');
+            }
+        } catch (\Throwable $e) {
+            Log::error('JWT authentication failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
             return ApiResponse::error('AUTH_TOKEN_INVALID', 'Bearer token is invalid or expired.', 401);
         }
 
@@ -39,6 +48,7 @@ final readonly class JwtAuthenticate
         }
 
         $request->setUserResolver(static fn (): User => $user);
+        Auth::guard('api')->setUser($user);
 
         return $next($request);
     }

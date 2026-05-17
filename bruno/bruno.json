@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Clean Architecture API",
+  "type": "collection",
+  "ignore": [
+    "*.json",
+    "*.http"
+  ]
+}

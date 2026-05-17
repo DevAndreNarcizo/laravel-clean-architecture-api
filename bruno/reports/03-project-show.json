@@ -1,0 +1,109 @@
+[
+  {
+    "iterationIndex": 0,
+    "results": [
+      {
+        "test": {
+          "filename": "projects/Show.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "http://localhost:8080/api/v1/projects/2",
+          "headers": {
+            "Authorization": "Bearer ********",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          }
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "host": "localhost:8080",
+            "connection": "close",
+            "x-powered-by": "PHP/8.4.20",
+            "cache-control": "no-cache, private",
+            "date": "Sat, 16 May 2026 14:13:20 GMT",
+            "content-type": "application/json",
+            "x-ratelimit-limit": "120",
+            "x-ratelimit-remaining": "105",
+            "access-control-allow-origin": "*"
+          },
+          "data": {
+            "success": true,
+            "data": {
+              "id": 2,
+              "ownerId": 1,
+              "name": "Projeto Bruno Test",
+              "description": "Criado pelo teste automatizado",
+              "status": "active"
+            },
+            "error": null,
+            "meta": {
+              "timestamp": "2026-05-16T14:13:20.777628Z"
+            }
+          },
+          "url": "http://localhost/api/v1/projects/2",
+          "responseTime": 59,
+          "duration": 59,
+          "size": 201
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [
+          {
+            "uid": "I2MYIBPWf34y5_XDUwzZv",
+            "lhsExpr": "res.status",
+            "rhsExpr": "eq 200",
+            "rhsOperand": "200",
+            "operator": "eq",
+            "status": "pass"
+          },
+          {
+            "uid": "QHu_haFz9UW0rTrwj7aP2",
+            "lhsExpr": "res.body.success",
+            "rhsExpr": "eq true",
+            "rhsOperand": "true",
+            "operator": "eq",
+            "status": "pass"
+          },
+          {
+            "uid": "D5--eJEgwvULdw_eQhYZW",
+            "lhsExpr": "res.body.data.name",
+            "rhsExpr": "isDefined",
+            "rhsOperand": "",
+            "operator": "isDefined",
+            "status": "pass"
+          }
+        ],
+        "testResults": [],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.11432004,
+        "name": "Show",
+        "path": "projects/Show",
+        "iterationIndex": 0
+      }
+    ],
+    "summary": {
+      "totalRequests": 1,
+      "passedRequests": 1,
+      "failedRequests": 0,
+      "errorRequests": 0,
+      "skippedRequests": 0,
+      "totalAssertions": 3,
+      "passedAssertions": 3,
+      "failedAssertions": 0,
+      "totalTests": 0,
+      "passedTests": 0,
+      "failedTests": 0,
+      "totalPreRequestTests": 0,
+      "passedPreRequestTests": 0,
+      "failedPreRequestTests": 0,
+      "totalPostResponseTests": 0,
+      "passedPostResponseTests": 0,
+      "failedPostResponseTests": 0
+    }
+  }
+]

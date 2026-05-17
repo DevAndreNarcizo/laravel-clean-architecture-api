@@ -1,0 +1,69 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Src\Interface\Http\Controllers;
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
+use Src\Application\Project\CreateProjectData;
+use Src\Application\Project\CreateProjectUseCase;
+use Src\Domain\Project\ProjectRepository;
+use Src\Interface\Http\Requests\StoreProjectRequest;
+use Src\Interface\Http\Resources\ApiResponse;
+
+final readonly class ProjectController
+{
+    public function __construct(
+        private CreateProjectUseCase $createProject,
+        private ProjectRepository $projectRepository,
+    ) {}
+
+    public function index(): JsonResponse
+    {
+        $ownerId = (int) request()->user()->id;
+        $cacheKey = 'projects.owner.'.$ownerId.'.'.md5(json_encode(request()->query(), JSON_THROW_ON_ERROR));
+
+        $allowedSortFields = ['id', 'name', 'created_at', 'updated_at'];
+        $sortBy = in_array((string) request('sort_by', 'created_at'), $allowedSortFields, true)
+            ? (string) request('sort_by', 'created_at')
+            : 'created_at';
+        $sortDir = in_array(strtolower((string) request('sort_dir', 'desc')), ['asc', 'desc'], true)
+            ? strtolower((string) request('sort_dir', 'desc'))
+            : 'desc';
+        $perPage = max(1, min(100, (int) request('per_page', 15)));
+        $search = request('search');
+        $status = request('status');
+
+        $result = Cache::remember($cacheKey, now()->addMinutes(5), function () use ($ownerId, $search, $status, $sortBy, $sortDir, $perPage): array {
+            return $this->projectRepository->findByOwner(
+                ownerId: $ownerId,
+                search: $search !== null ? (string) $search : null,
+                status: $status !== null ? (string) $status : null,
+                sortBy: $sortBy,
+                sortDir: $sortDir,
+                perPage: $perPage,
+            );
+        });
+
+        return ApiResponse::success($result['projects'], 200, $result['pagination']);
+    }
+
+    /**
+     * Cria um projeto e retorna envelope JSON padronizado.
+     *
+     * @author André Narcizo
+     */
+    public function store(StoreProjectRequest $request): JsonResponse
+    {
+        $project = $this->createProject->execute(new CreateProjectData(
+            ownerId: (int) $request->user()->id,
+            name: (string) $request->validated('name'),
+            description: $request->validated('description'),
+        ));
+
+        Cache::forget('projects:' . $request->user()->id . ':list');
+
+        return ApiResponse::success($project, 201);
+    }
+}

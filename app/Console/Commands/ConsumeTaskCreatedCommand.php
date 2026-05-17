@@ -13,6 +13,9 @@ final class ConsumeTaskCreatedCommand extends Command
 
     protected $description = 'Consumes task.created events and simulates an email notification.';
 
+    private static ?AMQPStreamConnection $connection = null;
+    private static ?\PhpAmqpLib\Channel\AMQPChannel $channel = null;
+
     /**
      * Consome eventos task.created do RabbitMQ.
      *
@@ -20,16 +23,7 @@ final class ConsumeTaskCreatedCommand extends Command
      */
     public function handle(): int
     {
-        $connection = new AMQPStreamConnection(
-            (string) config('services.rabbitmq.host'),
-            (int) config('services.rabbitmq.port'),
-            (string) config('services.rabbitmq.user'),
-            (string) config('services.rabbitmq.password'),
-        );
-        $channel = $connection->channel();
-        $channel->exchange_declare('tasks', 'topic', false, true, false);
-        $channel->queue_declare('task-created-email', false, true, false, false);
-        $channel->queue_bind('task-created-email', 'tasks', 'task.created');
+        $channel = $this->getChannel();
 
         $channel->basic_consume('task-created-email', '', false, false, false, false, function ($message): void {
             logger()->info('Simulated task created email', [
@@ -46,9 +40,26 @@ final class ConsumeTaskCreatedCommand extends Command
             $channel->wait();
         }
 
-        $channel->close();
-        $connection->close();
-
         return self::SUCCESS;
+    }
+
+    private function getChannel(): \PhpAmqpLib\Channel\AMQPChannel
+    {
+        if (self::$channel === null || self::$connection === null || !self::$connection->isConnected()) {
+            if (self::$connection !== null && self::$connection->isConnected()) {
+                self::$connection->close();
+            }
+            self::$connection = new AMQPStreamConnection(
+                (string) config('services.rabbitmq.host'),
+                (int) config('services.rabbitmq.port'),
+                (string) config('services.rabbitmq.user'),
+                (string) config('services.rabbitmq.password'),
+            );
+            self::$channel = self::$connection->channel();
+            self::$channel->exchange_declare('tasks', 'topic', false, true, false);
+            self::$channel->queue_declare('task-created-email', false, true, false, false);
+            self::$channel->queue_bind('task-created-email', 'tasks', 'task.created');
+        }
+        return self::$channel;
     }
 }

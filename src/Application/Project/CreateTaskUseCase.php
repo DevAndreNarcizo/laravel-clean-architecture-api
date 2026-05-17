@@ -27,7 +27,7 @@ final readonly class CreateTaskUseCase
             throw new DomainException('Project not found.');
         }
 
-        if ($this->tasks->countByProject($data->projectId) >= 100) {
+        if ($this->tasks->countByProject($data->projectId) >= (int) config('project.tasks_per_project', 100)) {
             throw new DomainException('Project task limit reached.');
         }
 

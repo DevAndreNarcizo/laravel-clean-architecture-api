@@ -16,6 +16,13 @@ Route::prefix('v1')->group(function (): void {
     Route::middleware(['jwt', 'throttle:api'])->group(function (): void {
         Route::get('/projects', [ProjectController::class, 'index']);
         Route::post('/projects', [ProjectController::class, 'store']);
+        Route::get('/projects/{project}', [ProjectController::class, 'show']);
+        Route::put('/projects/{project}', [ProjectController::class, 'update']);
+        Route::delete('/projects/{project}', [ProjectController::class, 'destroy']);
+        Route::get('/projects/{project}/tasks', [TaskController::class, 'index']);
         Route::post('/projects/{project}/tasks', [TaskController::class, 'store']);
+        Route::get('/tasks/{task}', [TaskController::class, 'show']);
+        Route::put('/tasks/{task}', [TaskController::class, 'update']);
+        Route::delete('/tasks/{task}', [TaskController::class, 'destroy']);
     });
 });

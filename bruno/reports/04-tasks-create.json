@@ -1,0 +1,119 @@
+[
+  {
+    "iterationIndex": 0,
+    "results": [
+      {
+        "test": {
+          "filename": "tasks/Create.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:8080/api/v1/projects/1/tasks",
+          "headers": {
+            "Authorization": "Bearer ********",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "data": "{\n  \"title\": \"Tarefa Bruno Test\",\n  \"description\": \"Criada pelo teste automatizado\"\n}"
+        },
+        "response": {
+          "status": 422,
+          "statusText": "Unprocessable Content",
+          "headers": {
+            "host": "localhost:8080",
+            "connection": "close",
+            "x-powered-by": "PHP/8.4.20",
+            "cache-control": "no-cache, private",
+            "date": "Sat, 16 May 2026 14:03:41 GMT",
+            "content-type": "application/json",
+            "x-ratelimit-limit": "120",
+            "x-ratelimit-remaining": "114",
+            "access-control-allow-origin": "*"
+          },
+          "data": {
+            "success": false,
+            "data": null,
+            "error": {
+              "code": "TASK_CREATE_FAILED",
+              "message": "Project not found.",
+              "details": []
+            },
+            "meta": {
+              "timestamp": "2026-05-16T14:03:41.424117Z"
+            }
+          },
+          "url": "http://localhost/api/v1/projects/1/tasks",
+          "responseTime": 55,
+          "duration": 55,
+          "size": 162
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [
+          {
+            "uid": "Fblhf5jJJZK-GJlsQ6Vep",
+            "lhsExpr": "res.status",
+            "rhsExpr": "eq 201",
+            "rhsOperand": "201",
+            "operator": "eq",
+            "status": "fail",
+            "error": "expected 422 to equal 201"
+          },
+          {
+            "uid": "XVPq0vNC88da5IINSYJUm",
+            "lhsExpr": "res.body.success",
+            "rhsExpr": "eq true",
+            "rhsOperand": "true",
+            "operator": "eq",
+            "status": "fail",
+            "error": "expected false to equal true"
+          },
+          {
+            "uid": "aCCb5AcrHaxUvsg89-2_n",
+            "lhsExpr": "res.body.data.title",
+            "rhsExpr": "eq \"Tarefa Bruno Test\"",
+            "rhsOperand": "\"Tarefa Bruno Test\"",
+            "operator": "eq",
+            "status": "fail",
+            "error": "expected { name: 'TypeError', …(2) } to equal 'Tarefa Bruno Test'"
+          },
+          {
+            "uid": "_95Em44uB5MnNKPeWFV9b",
+            "lhsExpr": "res.body.data.id",
+            "rhsExpr": "isDefined",
+            "rhsOperand": "",
+            "operator": "isDefined",
+            "status": "pass"
+          }
+        ],
+        "testResults": [],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.134888799,
+        "name": "Create",
+        "path": "tasks/Create",
+        "iterationIndex": 0
+      }
+    ],
+    "summary": {
+      "totalRequests": 1,
+      "passedRequests": 0,
+      "failedRequests": 1,
+      "errorRequests": 0,
+      "skippedRequests": 0,
+      "totalAssertions": 4,
+      "passedAssertions": 1,
+      "failedAssertions": 3,
+      "totalTests": 0,
+      "passedTests": 0,
+      "failedTests": 0,
+      "totalPreRequestTests": 0,
+      "passedPreRequestTests": 0,
+      "failedPreRequestTests": 0,
+      "totalPostResponseTests": 0,
+      "passedPostResponseTests": 0,
+      "failedPostResponseTests": 0
+    }
+  }
+]

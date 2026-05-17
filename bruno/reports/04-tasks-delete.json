@@ -1,0 +1,101 @@
+[
+  {
+    "iterationIndex": 0,
+    "results": [
+      {
+        "test": {
+          "filename": "tasks/Delete.bru"
+        },
+        "request": {
+          "method": "DELETE",
+          "url": "http://localhost:8080/api/v1/tasks/1",
+          "headers": {
+            "Authorization": "Bearer ********",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          }
+        },
+        "response": {
+          "status": 404,
+          "statusText": "Not Found",
+          "headers": {
+            "host": "localhost:8080",
+            "connection": "close",
+            "x-powered-by": "PHP/8.4.20",
+            "cache-control": "no-cache, private",
+            "date": "Sat, 16 May 2026 14:03:47 GMT",
+            "content-type": "application/json",
+            "x-ratelimit-limit": "120",
+            "x-ratelimit-remaining": "111",
+            "access-control-allow-origin": "*"
+          },
+          "data": {
+            "success": false,
+            "data": null,
+            "error": {
+              "code": "TASK_NOT_FOUND",
+              "message": "Task not found.",
+              "details": []
+            },
+            "meta": {
+              "timestamp": "2026-05-16T14:03:47.114665Z"
+            }
+          },
+          "url": "http://localhost/api/v1/tasks/1",
+          "responseTime": 51,
+          "duration": 51,
+          "size": 155
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [
+          {
+            "uid": "Dz2GGUVVobX5UaXsMtFxa",
+            "lhsExpr": "res.status",
+            "rhsExpr": "eq 200",
+            "rhsOperand": "200",
+            "operator": "eq",
+            "status": "fail",
+            "error": "expected 404 to equal 200"
+          },
+          {
+            "uid": "4AGzTiwZVZhXIb-p-YbEC",
+            "lhsExpr": "res.body.success",
+            "rhsExpr": "eq true",
+            "rhsOperand": "true",
+            "operator": "eq",
+            "status": "fail",
+            "error": "expected false to equal true"
+          }
+        ],
+        "testResults": [],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.106558087,
+        "name": "Delete",
+        "path": "tasks/Delete",
+        "iterationIndex": 0
+      }
+    ],
+    "summary": {
+      "totalRequests": 1,
+      "passedRequests": 0,
+      "failedRequests": 1,
+      "errorRequests": 0,
+      "skippedRequests": 0,
+      "totalAssertions": 2,
+      "passedAssertions": 0,
+      "failedAssertions": 2,
+      "totalTests": 0,
+      "passedTests": 0,
+      "failedTests": 0,
+      "totalPreRequestTests": 0,
+      "passedPreRequestTests": 0,
+      "failedPreRequestTests": 0,
+      "totalPostResponseTests": 0,
+      "passedPostResponseTests": 0,
+      "failedPostResponseTests": 0
+    }
+  }
+]

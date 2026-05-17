@@ -1,0 +1,31 @@
+meta {
+  name: List
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/projects
+  body: none
+}
+
+headers {
+  Authorization: Bearer {{auth_token}}
+  Content-Type: application/json
+  Accept: application/json
+}
+
+query {
+  search:
+  status:
+  sort_by: created_at
+  sort_dir: desc
+  per_page: 15
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.meta.current_page: isDefined
+  res.body.meta.total: isDefined
+}

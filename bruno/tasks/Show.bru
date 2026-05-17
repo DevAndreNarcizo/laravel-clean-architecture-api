@@ -1,0 +1,22 @@
+meta {
+  name: Show
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{base_url}}/tasks/{{task_id}}
+  body: none
+}
+
+headers {
+  Authorization: Bearer {{auth_token}}
+  Content-Type: application/json
+  Accept: application/json
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.title: isDefined
+}

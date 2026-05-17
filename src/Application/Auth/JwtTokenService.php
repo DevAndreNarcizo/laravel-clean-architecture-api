@@ -40,35 +40,6 @@ final class JwtTokenService
         return implode('.', $segments);
     }
 
-    /**
-     * Valida assinatura e expiração do token.
-     *
-     * @author André Narcizo
-     *
-     * @return array{sub: int, iat: int, exp: int}
-     */
-    public function verify(string $token): array
-    {
-        $segments = explode('.', $token);
-        if (count($segments) !== 3) {
-            throw new InvalidArgumentException('Invalid token format.');
-        }
-
-        [$header, $payload, $signature] = $segments;
-        $expected = $this->signature($header.'.'.$payload);
-        if (! hash_equals($expected, $signature)) {
-            throw new InvalidArgumentException('Invalid token signature.');
-        }
-
-        /** @var array{sub: int, iat: int, exp: int} $claims */
-        $claims = json_decode($this->base64UrlDecode($payload), true, 512, JSON_THROW_ON_ERROR);
-        if ($claims['exp'] < time()) {
-            throw new InvalidArgumentException('Token expired.');
-        }
-
-        return $claims;
-    }
-
     private function signature(string $payload): string
     {
         return $this->base64UrlEncode(hash_hmac('sha256', $payload, $this->secret, true));

@@ -1,0 +1,115 @@
+[
+  {
+    "iterationIndex": 0,
+    "results": [
+      {
+        "test": {
+          "filename": "auth/Login.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:8080/api/v1/auth/login",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "data": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password\"\n}"
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "host": "localhost:8080",
+            "connection": "close",
+            "x-powered-by": "PHP/8.4.20",
+            "cache-control": "no-cache, private",
+            "date": "Sat, 16 May 2026 13:53:45 GMT",
+            "content-type": "application/json",
+            "x-ratelimit-limit": "5",
+            "x-ratelimit-remaining": "4",
+            "access-control-allow-origin": "*"
+          },
+          "data": {
+            "success": true,
+            "data": {
+              "token_type": "Bearer",
+              "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTc3ODkzOTYyNSwiZXhwIjoxNzc4OTQwNTI1fQ.01_6yiNUrS9F0LHi5BuVrlg_bWvd8uKnS8KUM5dgogk",
+              "expires_in": 900,
+              "refresh_token": "P4vCdBZ4R2Fxhkys092EvF1UxycBNKtHia5QnG41jYicTKDoiwUrplJi4ICfes8jT0YY6RfIcR6ZOwl9"
+            },
+            "error": null,
+            "meta": {
+              "timestamp": "2026-05-16T13:53:45.969325Z"
+            }
+          },
+          "url": "http://localhost/api/v1/auth/login",
+          "responseTime": 312,
+          "duration": 312,
+          "size": 384
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [
+          {
+            "uid": "J66qG62MhIkAnrwefNQS1",
+            "lhsExpr": "res.status",
+            "rhsExpr": "eq 200",
+            "rhsOperand": "200",
+            "operator": "eq",
+            "status": "pass"
+          },
+          {
+            "uid": "UWhZ3OR27UnBKhJAEbhut",
+            "lhsExpr": "res.body.success",
+            "rhsExpr": "eq true",
+            "rhsOperand": "true",
+            "operator": "eq",
+            "status": "pass"
+          },
+          {
+            "uid": "VMD7U3NJ3OFocJrotEp1E",
+            "lhsExpr": "res.body.data.access_token",
+            "rhsExpr": "isDefined",
+            "rhsOperand": "",
+            "operator": "isDefined",
+            "status": "pass"
+          },
+          {
+            "uid": "XnUc7qBAiIXeMKi8FNVu9",
+            "lhsExpr": "res.body.data.expires_in",
+            "rhsExpr": "eq 900",
+            "rhsOperand": "900",
+            "operator": "eq",
+            "status": "pass"
+          }
+        ],
+        "testResults": [],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.434737912,
+        "name": "Login",
+        "path": "auth/Login",
+        "iterationIndex": 0
+      }
+    ],
+    "summary": {
+      "totalRequests": 1,
+      "passedRequests": 1,
+      "failedRequests": 0,
+      "errorRequests": 0,
+      "skippedRequests": 0,
+      "totalAssertions": 4,
+      "passedAssertions": 4,
+      "failedAssertions": 0,
+      "totalTests": 0,
+      "passedTests": 0,
+      "failedTests": 0,
+      "totalPreRequestTests": 0,
+      "passedPreRequestTests": 0,
+      "failedPreRequestTests": 0,
+      "totalPostResponseTests": 0,
+      "passedPostResponseTests": 0,
+      "failedPostResponseTests": 0
+    }
+  }
+]

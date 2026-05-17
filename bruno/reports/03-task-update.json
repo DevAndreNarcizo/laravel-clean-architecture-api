@@ -1,0 +1,118 @@
+[
+  {
+    "iterationIndex": 0,
+    "results": [
+      {
+        "test": {
+          "filename": "tasks/Update.bru"
+        },
+        "request": {
+          "method": "PUT",
+          "url": "http://localhost:8080/api/v1/tasks/2",
+          "headers": {
+            "Authorization": "Bearer ********",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "data": "{\n  \"title\": \"Tarefa Atualizada por Bruno\",\n  \"status\": \"done\"\n}"
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "host": "localhost:8080",
+            "connection": "close",
+            "x-powered-by": "PHP/8.4.20",
+            "cache-control": "no-cache, private",
+            "date": "Sat, 16 May 2026 14:13:29 GMT",
+            "content-type": "application/json",
+            "x-ratelimit-limit": "120",
+            "x-ratelimit-remaining": "118",
+            "access-control-allow-origin": "*"
+          },
+          "data": {
+            "success": true,
+            "data": {
+              "id": 2,
+              "projectId": 2,
+              "title": "Tarefa Atualizada por Bruno",
+              "description": "Criada pelo teste automatizado",
+              "status": "done"
+            },
+            "error": null,
+            "meta": {
+              "timestamp": "2026-05-16T14:13:29.279704Z"
+            }
+          },
+          "url": "http://localhost/api/v1/tasks/2",
+          "responseTime": 72,
+          "duration": 72,
+          "size": 211
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [
+          {
+            "uid": "VKWBwf4q9h9Gds8OuaU8E",
+            "lhsExpr": "res.status",
+            "rhsExpr": "eq 200",
+            "rhsOperand": "200",
+            "operator": "eq",
+            "status": "pass"
+          },
+          {
+            "uid": "zCq8KP1ZlRwJ01UK0eEds",
+            "lhsExpr": "res.body.success",
+            "rhsExpr": "eq true",
+            "rhsOperand": "true",
+            "operator": "eq",
+            "status": "pass"
+          },
+          {
+            "uid": "Q3mobaB1BIdRCj-cgQlXP",
+            "lhsExpr": "res.body.data.title",
+            "rhsExpr": "eq \"Tarefa Atualizada por Bruno\"",
+            "rhsOperand": "\"Tarefa Atualizada por Bruno\"",
+            "operator": "eq",
+            "status": "pass"
+          },
+          {
+            "uid": "81xu_Oc3coYmlN9Ms5Rkq",
+            "lhsExpr": "res.body.data.status",
+            "rhsExpr": "eq \"done\"",
+            "rhsOperand": "\"done\"",
+            "operator": "eq",
+            "status": "pass"
+          }
+        ],
+        "testResults": [],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.132475548,
+        "name": "Update",
+        "path": "tasks/Update",
+        "iterationIndex": 0
+      }
+    ],
+    "summary": {
+      "totalRequests": 1,
+      "passedRequests": 1,
+      "failedRequests": 0,
+      "errorRequests": 0,
+      "skippedRequests": 0,
+      "totalAssertions": 4,
+      "passedAssertions": 4,
+      "failedAssertions": 0,
+      "totalTests": 0,
+      "passedTests": 0,
+      "failedTests": 0,
+      "totalPreRequestTests": 0,
+      "passedPreRequestTests": 0,
+      "failedPreRequestTests": 0,
+      "totalPostResponseTests": 0,
+      "passedPostResponseTests": 0,
+      "failedPostResponseTests": 0
+    }
+  }
+]
